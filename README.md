@@ -17,3 +17,5 @@
 # tsp
 - 유전 알고리즘 활용 최적 경로 탐색
   
+# Kuromi
+- C# Windows Forms 앱(.NET Framework) Graphic 이용하여 쿠로미 그림 
