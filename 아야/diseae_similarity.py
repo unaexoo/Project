@@ -20,7 +20,7 @@ data = data.drop(columns=['Code'])
 # 증상 텍스트 준비
 corpus = data['Symptoms'].fillna("").tolist()
 
-embedding_model_id = "sentence-transformers/all-mpnet-base-v2"
+embedding_model_id = "BAAI/bge-m3"
 sentence_model = SentenceTransformer(embedding_model_id).to(device)
 
 def calc_similarity(query, top_k=5):
