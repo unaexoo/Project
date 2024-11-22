@@ -61,3 +61,14 @@
     라이스 방법 (휴식, 얼음, 압축, 고도), 부서, 진통제, 물리 치료, 수술 (심한 경우)
 ==================================================
 ```
+
+```
+@misc{bge-m3,
+      title={BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation}, 
+      author={Jianlv Chen and Shitao Xiao and Peitian Zhang and Kun Luo and Defu Lian and Zheng Liu},
+      year={2024},
+      eprint={2402.03216},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
