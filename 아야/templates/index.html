@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아야</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="icon">
+        <img src="/static/images/bear-icon.png" alt="Bear Icon">
+        <div class="music-notes">🎵🎶</div>
+      </div>
+      <h1>어떤 증상이 있나요?</h1>
+    </div>
+    <div class="textarea-wrapper">
+      <textarea id="symptoms" placeholder="여기에 증상을 적어주세요."></textarea>
+    </div>
+    <button id="analyze-btn" class="analyze-btn">
+      <span class="heart">💖</span> 분석하기
+    </button>
+    <div id="loading-spinner" class="loading-spinner" style="display: none;">
+      <div class="spinner"></div>
+      <p>분석 중입니다. 잠시만 기다려주세요...</p>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("#analyze-btn").click(function() {
+        const symptoms = $("#symptoms").val();
+        if (!symptoms) {
+          alert("증상을 입력해주세요!");
+          return;
+        }
+
+        // 로딩 표시 활성화
+        $("#analyze-btn").hide();
+        $("#loading-spinner").show();
+
+        // Flask 서버에 AJAX 요청
+        $.ajax({
+          url: "/predict",
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ symptoms: symptoms }),
+          success: function(response) {
+            // 결과 페이지로 이동
+            window.location.href = `/result?matched_symptoms=${encodeURIComponent(response.matched_symptoms)}&generated_response=${encodeURIComponent(response.generated_response)}`;
+          },
+          error: function(xhr, status, error) {
+            alert("오류 발생: " + (xhr.responseJSON.error || "알 수 없는 오류"));
+          },
+          complete: function() {
+            // 로딩 표시 해제 (오류 처리 대비)
+            $("#analyze-btn").show();
+            $("#loading-spinner").hide();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
