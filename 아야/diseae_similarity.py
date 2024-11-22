@@ -1,5 +1,5 @@
 import os
-os.environ['HUGGINGFACEHUB_API_TOKEN'] = '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'
+os.environ['HUGGINGFACEHUB_API_TOKEN'] = ''
 
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
