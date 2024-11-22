@@ -9,7 +9,7 @@ import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 모델 로드
-embedding_model_id = "sentence-transformers/all-mpnet-base-v2"
+embedding_model_id = "BAAI/bge-m3"
 sentence_model = SentenceTransformer(embedding_model_id).to(device)
 
 def calc_similarity(query, data, top_k=5):
