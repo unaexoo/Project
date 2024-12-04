@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, f1_score, precision_score, recall_score, accuracy_score
@@ -24,14 +24,22 @@ data['sex'] = sex_encoder.fit_transform(data['sex'])
 X = data.drop(columns=['species'])
 y = data['species']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
 # 데이터 스케일링
 scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 교차 검증
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+model = RandomForestClassifier(n_estimators=10000, random_state=42)
+cv_scores = cross_val_score(model, X_scaled, y, cv=cv, scoring='accuracy')
+
+print(f"Cross-Validation Scores: {cv_scores}")
+print(f"Mean Accuracy: {cv_scores.mean():.2f} ± {cv_scores.std():.2f}")
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-model = RandomForestClassifier(n_estimators=10000, random_state=42)
 model.fit(X_train, y_train)
 
 # 예측
@@ -50,4 +58,3 @@ print(f"F1 Score: {f1:.2f}")
 print(f"Precision: {precision:.2f}")
 print(f"Recall: {recall:.2f}")
 print("\nClassification Report:\n", report)
-
